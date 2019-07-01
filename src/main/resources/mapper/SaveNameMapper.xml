@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.savename.mapper.SaveNameMapper">
+
+    <sql id="savename">
+        id,username,gender,gongzuo,phone,ostatytime
+    </sql>
+
+    <!--新增退货-->
+    <insert id="insetSaveName" parameterType="com.example.savename.bean.SaveName">
+        insert into savename(<include refid="savename" />)values(#{id},#{username},#{gender},#{gongzuo},#{phone},#{ostatytime})
+    </insert>
+
+    <!--查询所有退货-->
+    <select id="getAllSaveName" resultType="com.example.savename.bean.SaveName">
+        SELECT <include refid="savename"/> FROM savename
+    </select>
+
+    <!--根据退货ID 查询退货-->
+    <select id="getSaveNameById" resultType="com.example.savename.bean.SaveName">
+        SELECT <include refid="savename"/> FROM savename where id=#{value}
+    </select>
+
+    <!--根据id删除退货信息-->
+    <delete id="delSaveNameById" parameterType="int">
+        delete from savename where id=#{id}
+    </delete>
+
+
+
+</mapper>

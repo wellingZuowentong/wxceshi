@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+   <!--<link href="css/response.css" rel="stylesheet">-->
+</head>
+<body>
+<img src="img/t.jpg" class="img-responsive" alt="Responsive image">
+<img src="img/z.jpg" class="img-responsive" alt="Responsive image" onclick="showZPModle()">
+<img src="img/j.jpg" class="img-responsive" alt="Responsive image">
+<img src="img/d.jpg" class="img-responsive" alt="Responsive image">
+<div class="modal fade" id="zpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top: 50%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">填写信息</h4>
+            </div>
+            <div class="modal-body">
+                <div style="width: 90%;margin: 0 auto">
+                    <form class="form-horizontal" id="zp_form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" class="col-xs-3 control-label">姓名</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1" class="col-xs-3 control-label">手机</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" id="exampleInputPassword1" onblur="checkPhone()" name="phone" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-xs-3 control-label">职位</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" name="gongzuo" id="age">
+                                    <option value="0">选择职位</option>
+                                    <option value="1">前台/文员</option>
+                                    <option value="2">行政助理</option>
+                                    <option value="3">销售</option>
+                                    <option value="4">java开发</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-xs-3 control-label">性别</label>
+                            <div class="col-xs-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" id="inlineRadio1" value="1"> <label>男</label>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" id="inlineRadio2" value="2"> <label>女</label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-11">
+                                <button type="button" onclick="bh()" class="col-xs-3 btn btn-success">提交</button>
+                                <button type="button" onclick="qx()" class="col-xs-3 col-xs-offset-6 btn btn-danger">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+    function showZPModle() {
+        $("#zpModal").modal("show");
+    }
+    function qx() {
+        $("#zpModal").modal("hide");
+    }
+
+    function bh() {
+       var name=document.getElementById('exampleInputEmail1').value;
+        var phone=document.getElementById('exampleInputPassword1').value;
+        var gender1=document.getElementById('inlineRadio1').checked;
+        var gender2=document.getElementById('inlineRadio2').checked;
+        var age=document.getElementById('age').value;
+        if(name==null||name==""){
+            alert("姓名不能为空");
+            return false;
+        }
+        if(phone==null||phone==""){
+            alert("手机号不能为空");
+            return false;
+        }
+        if(age==null||age==""||age==0){
+            alert("请选择职位");
+            return false;
+        }
+        if(!(gender1||gender2)){
+            alert("请选择性别");
+            return false;
+        }
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "insetSaveName" ,//url
+            data: $('#zp_form').serialize(),
+            success: function (result) {
+                window.location.href="success.html";
+            }
+        });
+    }
+    function checkPhone(){
+        var phone = document.getElementById('exampleInputPassword1').value;
+        if(!(/^1[3456789]\d{9}$/.test(phone))){
+            alert("手机号码有误，请重填");
+            document.getElementById('exampleInputPassword1').value="";
+            return false;
+        }
+    }
+
+</script>
+</body>
+</html>
